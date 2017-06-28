@@ -107,7 +107,7 @@
 				</div>
                 <div class="col-sm-10">
                     <div class="panel panel-default" style="">
-                        <div class="panel-heading" style="color:rgb(118, 119, 46);background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);">
+                        <div class="panel-heading" style="color:#000000;background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);">
                       		      搜索
                         </div>
                         <div class="panel-body">
