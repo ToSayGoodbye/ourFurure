@@ -45,10 +45,14 @@
 
 <img style="width: 192px; height: 50px;padding:0px;margin-top:-20px" src="./img/logo.png">
 
-<div class="container" style="padding-right:380px;padding-left:380px;padding-top:200px">
-
-      <form id="login" class="form-signin" action="./login.do" method="post">
-        <h2 class="form-signin-heading" style="text-align:center;color:#E2E2E2">系统</h2>
+<div class="container" style="padding-right:380px;padding-left:380px;padding-top:100px;">
+		<div style="position: fixed;
+    height: 281px;
+    width: 32%;
+    padding: 15px 30px 30px 30px;
+    background: #f1f0f0;border-radius:3px">
+			<form id="login" class="form-signin" action="./login.do" method="post">
+        <h2 class="form-signin-heading" style="text-align:center;color:#666">系统</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="inputEmail" name="name" class="form-control" placeholder="请输入账号" required autofocus>
         <br/>
@@ -57,7 +61,9 @@
         <br/>
       </form>
 		<button class="btn btn-lg btn-primary btn-block" onclick="login()">登录</button>
-    </div>
+    
+		</div>
+      </div>
 
 <script>
 function login(){
