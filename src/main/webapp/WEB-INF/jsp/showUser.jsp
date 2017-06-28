@@ -19,7 +19,19 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css"/>
     <style>
     	body{
-    		background:honeydew;
+    		
+    	}
+    	btn-group{
+    		height:27px
+    	}
+    	td{
+    		padding:0px
+    	}
+    	.list-group-item{
+    		background:rgba(109, 85, 85, 0.33);	
+    	}
+    	a.list-group-item, button.list-group-item{
+    		color:rgb(23, 132, 92);
     	}
     </style>
 </head>
@@ -27,7 +39,7 @@
 	String name = (String)session.getAttribute("user");
 	if(name==null)response.sendRedirect(request.getServletContext().getContextPath()+"/login.html");
 	%>
-<body onload="query(0,'','')" style="background:honeydews">
+<body onload="query(0,'','')" style="color:rgb(23, 132, 92);background-image:url('${pageContext.request.contextPath}/img/body6.jpg')">
    <nav class="navbar navbar-inverse">
        <div class="container-fluid">
            <!-- Brand and toggle get grouped for better mobile display -->
@@ -38,12 +50,12 @@
                    <span class="icon-bar"></span>
                    <span class="icon-bar"></span>
                </button>
-               <a class="navbar-brand" href="#">Brand</a>
+               <a style="padding:0px;margin:0px" class="navbar-brand" href="#" id="project"><img style="width: 192px; height: 50px;padding:0px;margin:0px" src="${pageContext.request.contextPath}/img/logo.png"></a>
            </div>
 
            <!-- Collect the nav links, forms, and other content for toggling -->
            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               <ul class="nav navbar-nav">
+               <ul class="nav navbar-nav" style="display:none">
                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
                    <li><a href="#">Link</a></li>
                    <li>
@@ -60,15 +72,16 @@
                    		 <span style="color:#A98E8E">你好,<%=session.getAttribute("user")%>!</span>
                        <input type="text" class="form-control" placeholder="Search">
                    </div>
-                   <a href="" class="btn btn-default">退出</a>
+                   <a href="./login.html" class="btn btn-default">退出</a>
+                    <input type="hidden" id="onTimeCount">
                </form>
            </div><!-- /.navbar-collapse -->
        </div><!-- /.container-fluid -->
    </nav>
-	<div class="container-fluid">
+	<div class="container-fluid" style="">
             <div class="row">
-                <div class="col-sm-2">
-                    <a href="#" class="list-group-item active"> 影像管理</a>
+                <div class="col-sm-2" style="">
+                    <a href="#" class="list-group-item active" style="background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);border-color:#DEDEDE"> 影像管理</a>
                     <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-home"> 内科影像</a>
                     <a href="#" class="list-group-item" style="height:40px">
@@ -85,7 +98,7 @@
                         <span class="glyphicon glyphicon-th-large"> 泌尿影像</a>
                        <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-user"> 肿瘤影像</a>
-                	<img alt="" style="width: 200px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
+                	<img alt="" style="width: 195px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
                 </div>
                 
                 <div id="myAlert" class="alert alert-warning" style="display:none;position:absolute">
@@ -93,8 +106,8 @@
 				    <strong>警告！</strong>您的网络连接有问题。
 				</div>
                 <div class="col-sm-10">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
+                    <div class="panel panel-default" style="">
+                        <div class="panel-heading" style="color:rgb(118, 119, 46);background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);">
                       		      搜索
                         </div>
                         <div class="panel-body">
@@ -120,8 +133,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped ">
+                    <div class="">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>编号</th>
@@ -234,36 +247,83 @@
 	</div>
 </body>
 <script>
-$(function(){  
+$(function(){ 
+	if(window.location.href.split('?str=')[1]=='1'){
+		$('#project').html('肺部CT数据库');
+	}else if(window.location.href.split('?str=')[1]=='2'){
+		$('#project').html('MRI数据库');
+	}else if(window.location.href.split('?str=')[1]=='3'){
+		$('#project').html('X片数据库');
+	}else if(window.location.href.split('?str=')[1]=='4'){
+		$('#project').html('B超影像数据库');
+	}else if(window.location.href.split('?str=')[1]=='5'){
+		$('#project').html('病理图片数据库');
+	}else if(window.location.href.split('?str=')[1]=='6'){
+		$('#project').html('眼底图片数据库');
+	}
     //点击打开文件选择器  
     $("#upload").on('click', function() {  
         $('#fileToUpload').click();  
-    }); 
+    });
+	setOnTimeCount();
+	
+    var getting = {
+            url:'./countLevel.do',
+            dataType:'json',
+            success:function(res) {
+            	if($('#onTimeCount').val()!=res){
+            		$('#onTimeCount').val(res);
+            		toQuery();
+            	}
+             	$.ajax(getting); //关键在这里，回调函数内再次请求Ajax
+    		},        
+            //当请求时间过长（默认为60秒），就再次调用ajax长轮询
+            error:function(res){
+            	$.ajax($getting);
+            }
+
+    };
+  	//开始
+    //$.ajax(getting);
     
 });   
+	function setOnTimeCount(){
+		$.ajax({
+			url:'./countLevel.do',
+	        dataType:'json',
+	        async:false,
+	        success:function(res){
+	        	$('#onTimeCount').val(res);
+	        }
+		})
+	}
 	function query(page,name,picture_type){
 		 $.ajax({
 			 type : "POST",	
 			 dataType: 'json',
-			 data:{page:page,pagesize:"10",name:name,picture_type:picture_type},
+			 data:{page:page,pagesize:"20",name:name,picture_type:picture_type},
 		   	 url : "./queryPhotos.do",    			 
 		   	 success: function(data){
 		   		 $('#page').html(data.page+1);
 		   		 $('#total').html(data.total);
 		   		if(data.rows.length>0){
 		   			for (var i = 0; i < data.rows.length; i++) {
+		   				var trClass="";
+				   		 if(data.rows[i].level==1){
+				   			trClass="success";
+				   		 }
 		   				var path=data.rows[i].picture_path.replace(new RegExp(/\./g),'\\.').replace(new RegExp(/\//g),'\\/');
-		   			 $('<tr>'+
-		   		            '<td>'+data.rows[i].id+'</td>'+
-		   		            '<td>'+data.rows[i].picture_name+'</td>'+
-		   		           '<td>'+getType(data.rows[i].picture_type)+'</td>'+
-		   		           '<td>'+data.rows[i].picture_information+'</td>'+
-		   		           '<td>'+data.rows[i].comment+'</td>'+
-		   		        	'<td>正常</td>'+
-		   		     		'<td>'+data.rows[i].putin_date+'</td>'+
-		   		            '<td>'+
+		   			 $('<tr class="'+trClass+'">'+
+		   		            '<td style="padding:0px">'+data.rows[i].id+'</td>'+
+		   		            '<td style="padding:0px">'+data.rows[i].picture_name+'</td>'+
+		   		           '<td style="padding:0px">'+getType(data.rows[i].picture_type)+'</td>'+
+		   		           '<td style="padding:0px">'+data.rows[i].picture_information+'</td>'+
+		   		           '<td style="padding:0px">'+data.rows[i].comment+'</td>'+
+		   		        	'<td style="padding:0px">正常</td>'+
+		   		     		'<td style="padding:0px">'+data.rows[i].putin_date+'</td>'+
+		   		            '<td style="padding:0px">'+
 		   		                '<div class="btn-group">'+
-		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default">查看</a>'+'<a href="" class="btn btn-default">标记</a><a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger">删除</a>'+
+		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">查看</a>'+'<a href="" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a><a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">删除</a>'+
 		   		                '</div></td></tr>').appendTo($('#listBody'));
 		   			}
 		   		}

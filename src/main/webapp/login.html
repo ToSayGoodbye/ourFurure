@@ -41,23 +41,22 @@
         }
     </script>
 </head>
-<body style="padding-top: 40px;padding-bottom: 40px;background-color: #eee;">
+<body style="padding-top: 40px;padding-bottom: 40px;background-color: #eee;background-image:url('./img/login.jpg')">
 
+<img style="width: 192px; height: 50px;padding:0px;margin-top:-20px" src="./img/logo.png">
 
-
-<div class="container" style="padding-right:380px;padding-left:380px">
+<div class="container" style="padding-right:380px;padding-left:380px;padding-top:200px">
 
       <form id="login" class="form-signin" action="./login.do" method="post">
-        <h2 class="form-signin-heading" style="text-align:center">医疗影像系统</h2>
+        <h2 class="form-signin-heading" style="text-align:center;color:#E2E2E2">系统</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" id="inputEmail" name="name" class="form-control" placeholder="请输入账号" required autofocus>
         <br/>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword"  name="score"  class="form-control" placeholder="请输入密码" required>
         <br/>
-        <button class="btn btn-lg btn-primary btn-block" onclick="login()">登录</button>
       </form>
-
+		<button class="btn btn-lg btn-primary btn-block" onclick="login()">登录</button>
     </div>
 
 <script>

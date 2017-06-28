@@ -147,13 +147,12 @@ public class UserController {
 			Map<String, Object> map=new HashMap<String, Object>();
 			if(newUser==null){ 
 				map.put("msg", "用户名不正确");
-			}else if(Double.parseDouble(newUser.getScore())!=Double.parseDouble(user.getScore())){
+			}else if(!newUser.getScore().equals(user.getScore())){
 				map.put("msg", "密码不正确");
 			}else{
 				map.put("msg", "正确");
 			}
 			return map;
-			//request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 	/**
 	 * 添加用户
@@ -181,7 +180,7 @@ public class UserController {
 			String name = user.getName();
 			session.setAttribute("user", name);
 			try {
-				request.getRequestDispatcher("/WEB-INF/jsp/jump.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/jsp/showUser.jsp").forward(request, response);
 			} catch (ServletException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
