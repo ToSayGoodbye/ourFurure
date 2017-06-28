@@ -50,7 +50,7 @@ public class UserController {
 	private static Logger logger = Logger.getLogger(UserController.class);
 	
 	@Autowired
-    private IUserDao userDao;
+    private IUserDao userDao; 
 	
 	@Autowired
     private IUserService userService;
