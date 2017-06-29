@@ -104,7 +104,7 @@
                         <span class="glyphicon glyphicon-th-large"> 泌尿影像</a>
                        <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-user"> 肿瘤影像</a>
-                	<img alt="" style="width: 195px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
+                	<img id="showImg" style="width: 195px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
                 </div>
                 
                 <div id="myAlert" class="alert alert-warning" style="display:none;position:absolute">
@@ -233,7 +233,7 @@
 	</div>
 	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog">
-			<div class="modal-content" style="width:500px;padding:0px";height:300px>
+			<div class="modal-content" style="width:700px;padding:0px";height:512px>
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
@@ -242,8 +242,8 @@
 						
 					</h4>
 				</div>
-				<div class="modal-body" style="padding:15px;height:350px">
-					  <img id="viewImg" style="width: 200px; height: 200px;margin-top:40px;margin-left:120px">  
+				<div class="modal-body" style="padding:15px;height:512px">
+					  <img id="viewImg" style="width: 400px; height: 400px;margin-top:40px;margin-left:120px">  
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -315,6 +315,13 @@ $(function(){
   	
   	//禁止轮播
     $("#myCarousel").carousel('pause');
+  	
+  	//
+  	$("#showImg").css({
+  		'width': function () {
+            return ($('.list-group-item').width()+32);
+        }
+  	})
     
 });   
 	function setOnTimeCount(){
