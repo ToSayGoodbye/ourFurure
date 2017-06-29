@@ -121,6 +121,7 @@ public class UserController {
 		pageMap.put("pagesize", pagesize);
 		pageMap.put("picture_name", request.getParameter("name"));
 		pageMap.put("picture_type", request.getParameter("picture_type"));
+		pageMap.put("level", request.getParameter("level"));
 		
 		List<Photo> list = new ArrayList<Photo>();
 		list = userDao.queryPhotos(pageMap);

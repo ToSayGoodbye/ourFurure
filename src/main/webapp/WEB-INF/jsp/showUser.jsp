@@ -33,13 +33,19 @@
     	a.list-group-item, button.list-group-item{
     		color:rgb(23, 132, 92);
     	}
+    	.carousel-indicators .active{
+    		background-color: #286090;
+    	}
+    	.carousel-indicators li{
+    		border: 1px solid #333;
+    	}
     </style>
 </head>
 	<%
 	String name = (String)session.getAttribute("user");
 	if(name==null)response.sendRedirect(request.getServletContext().getContextPath()+"/login.html");
 	%>
-<body onload="query(0,'','')" style="color:rgb(23, 132, 92);background-image:url('${pageContext.request.contextPath}/img/body6.jpg')">
+<body style="color:rgb(23, 132, 92);background-image:url('${pageContext.request.contextPath}/img/body6.jpg')">
    <nav class="navbar navbar-inverse">
        <div class="container-fluid">
            <!-- Brand and toggle get grouped for better mobile display -->
@@ -88,7 +94,7 @@
                         <span class="glyphicon glyphicon-file"> 外科影像</a>
                       <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-th-large"> 中医影像</a>
-                      <a href="#" class="list-group-item" style="height:40px">
+                      <a href="#" onclick="toShow()" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-home"> 西医影像</a>
                       <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-th-large"> 神经影像</a>
@@ -245,22 +251,43 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
+	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" style="margin:0;padding:0">
+			<div id="toShowBody" class="modal-content" style="margin:30px 50px 30px 30px";>
+				<div class="modal-header" style="background-color:">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+				</div>
+				<div class="modal-body" style="padding:0px;">
+					  <div id="myCarousel" class="carousel slide">
+					    <!-- 轮播（Carousel）指标 -->
+					    <ol class="carousel-indicators">
+					    </ol>   
+					    <!-- 轮播（Carousel）项目 -->
+					    <div class="carousel-inner" style="heigth:800px">
+					    </div>
+					    <!-- 轮播（Carousel）导航 -->
+					    <a class="carousel-control left" href="#myCarousel" 
+					        data-slide="prev">&lsaquo;
+					    </a>
+					    <a class="carousel-control right" href="#myCarousel" 
+					        data-slide="next">&rsaquo;
+					    </a>
+					</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
 </body>
 <script>
 $(function(){ 
-	if(window.location.href.split('?str=')[1]=='1'){
-		$('#project').html('肺部CT数据库');
-	}else if(window.location.href.split('?str=')[1]=='2'){
-		$('#project').html('MRI数据库');
-	}else if(window.location.href.split('?str=')[1]=='3'){
-		$('#project').html('X片数据库');
-	}else if(window.location.href.split('?str=')[1]=='4'){
-		$('#project').html('B超影像数据库');
-	}else if(window.location.href.split('?str=')[1]=='5'){
-		$('#project').html('病理图片数据库');
-	}else if(window.location.href.split('?str=')[1]=='6'){
-		$('#project').html('眼底图片数据库');
-	}
+	
+	//初始化数据
+	query(0,'','');
+	
     //点击打开文件选择器  
     $("#upload").on('click', function() {  
         $('#fileToUpload').click();  
@@ -285,6 +312,9 @@ $(function(){
     };
   	//开始
     //$.ajax(getting);
+  	
+  	//禁止轮播
+    $("#myCarousel").carousel('pause');
     
 });   
 	function setOnTimeCount(){
@@ -348,6 +378,37 @@ $(function(){
 		 $('#myModal2').modal({
 		        keyboard: true
 		  })
+	}
+	function toShow(){
+		 $('.carousel-inner').html("");
+		$('.carousel-indicators').html(""); 
+		$.ajax({
+			 type : "POST",	
+			 dataType: 'json',
+			 data:{page:0,pagesize:1000,level:'1'},
+		   	 url : "./queryPhotos.do",    			 
+		   	 success: function(data){
+		   		if(data.rows.length>0){
+		   			for (var i = 0; i < data.rows.length; i++) {
+		   				var liClass = "";
+		   				if(i==0)liClass = "active";
+		   				$('<div class="item '+liClass+'">'+
+		   		            '<img style="width:650px;height:650px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
+		   		          ).appendTo($('.carousel-inner'));
+		   				$('<li data-target="#myCarousel" data-slide-to="'+i+'" class="'+liClass+'"></li>').appendTo($('.carousel-indicators'));
+		   			}
+		   		}   
+	        }
+		}); 
+        $('#myModal3').modal('show');
+		$('#toShowBody').css({
+			'width': function () {
+                return ($(document.body).width()-60);
+            },
+            'height': function () {
+                return ($(document.body).height()-60 );
+            }
+		});
 	}
    //选择文件之后执行上传  
    	function changeEvent(){

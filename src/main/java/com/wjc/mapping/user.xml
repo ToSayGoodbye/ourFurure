@@ -46,7 +46,10 @@
 	        picture_name LIKE CONCAT(CONCAT('%', #{picture_name}),'%')  
 	    </if>
 	    <if test="picture_type!=null and picture_type!='' ">  
-	       and  picture_type=#{picture_type}
+	       and picture_type=#{picture_type}
+	    </if>
+	    <if test="level!=null and level!='' ">  
+	       and level=#{level}
 	    </if>
 	  </where> 
      order by level desc,id desc LIMIT #{page},#{pagesize} 
@@ -60,6 +63,9 @@
 	    </if>
 	    <if test="picture_type!=null and picture_type!='' ">  
 	       and  picture_type=#{picture_type}
+	    </if>
+	    <if test="level!=null and level!='' ">  
+	       and level=#{level}
 	    </if>
 	</where> 
 </select>
