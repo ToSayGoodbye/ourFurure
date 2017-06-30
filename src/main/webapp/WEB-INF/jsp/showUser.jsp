@@ -253,7 +253,7 @@
 	</div>
 	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog" style="margin:0;padding:0">
-			<div id="toShowBody" class="modal-content" style="margin:30px 50px 30px 30px";>
+			<div id="toShowBody" class="modal-content" style="margin:12px 50px 30px 30px";>
 				<div class="modal-header" style="background-color:">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
@@ -400,7 +400,7 @@ $(function(){
 		   				var liClass = "";
 		   				if(i==0)liClass = "active";
 		   				$('<div class="item '+liClass+'">'+
-		   		            '<img style="width:650px;height:650px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
+		   		            '<img style="width:500px;height:450px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
 		   		          ).appendTo($('.carousel-inner'));
 		   				$('<li data-target="#myCarousel" data-slide-to="'+i+'" class="'+liClass+'"></li>').appendTo($('.carousel-indicators'));
 		   			}
@@ -413,7 +413,7 @@ $(function(){
                 return ($(document.body).width()-60);
             },
             'height': function () {
-                return ($(document.body).height()-60 );
+                return ($(document.body).height()-270);
             }
 		});
 	}
