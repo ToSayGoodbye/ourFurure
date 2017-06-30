@@ -335,6 +335,7 @@ $(function(){
             error:function(res){
             	$.ajax($getting);
             }
+
     };
   	//开始
     //$.ajax(getting);
@@ -476,6 +477,7 @@ $(function(){
            });  
    	}
         
+
 function toOpen(){
 	  $('#myModal').modal({
 	        keyboard: true
