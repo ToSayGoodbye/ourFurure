@@ -30,7 +30,28 @@
 
  <!-- 添加图片信息-->
 <insert id="addPhoto" parameterType="java.util.HashMap"> 
-    insert into picture_table (picture_path,picture_information,picture_name,picture_type,comment,putin_date) values (#{picture_path},#{picture_information},#{picture_name},#{picture_type},#{comment},now())
+    INSERT INTO picture_table (
+		picture_path,
+		picture_information,
+		picture_name,
+		picture_type,
+		COMMENT,
+		putin_date,
+		state,
+		if_original,
+		associate_id
+	)
+	VALUES
+	(
+		#{picture_path},
+		#{picture_information},
+		#{picture_name},
+		#{picture_type},
+		#{comment},now(),
+		#{state},
+		#{if_original},
+		#{associate_id}
+	 )
 </insert> 
 
 <!-- 删除图片-->
@@ -74,6 +95,23 @@
 <select id="countLevel" resultType="java.lang.Integer"> 
     SELECT count(1) FROM picture_table where level is not null
 </select>
+
+<!-- 修改图片信息-->
+<insert id="updatePhoto" parameterType="java.util.HashMap"> 
+    update 
+    	picture_table 
+    set 
+	    picture_path = #{picture_path},
+	    picture_information=#{picture_information},
+	    picture_name=#{picture_name}, 
+		picture_type=#{picture_type},
+		comment=#{comment},
+		putin_date=now(),
+		state=#{state},
+		if_original=#{if_original},
+		associate_id=#{associate_id}
+	where id = #{id}
+</insert> 
 
 </mapper>
 
