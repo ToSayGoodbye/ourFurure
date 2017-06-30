@@ -39,4 +39,7 @@ public interface IUserDao {
 	
 	//查询设置为level为1的个数
 	public int countLevel() throws Exception;
+
+	//更新图片信息
+	public void updatePhoto(Map<String, String> map);
 }

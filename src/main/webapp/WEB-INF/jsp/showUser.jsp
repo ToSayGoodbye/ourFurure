@@ -183,7 +183,7 @@
 						上传图片
 					</h4>
 				</div>
-				<div class="modal-body" style="padding:15px;height:470px">
+				<div class="modal-body" style="padding:15px;height:480px;overflow:scroll">
 						<form id="photoForm" role="form"  class="form-horizontal" action="./addPhoto.do">
 						  <div class="form-group">
 						    <label for="picture_name" class="col-sm-2 control-label">图片名称：</label>
@@ -215,6 +215,33 @@
 						    <div class="col-sm-10">
 							    <textarea id="picture_information" name="picture_information" class="form-control" rows="3" placeholder="请输入图片描述"></textarea>
 						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="if_original" class="col-sm-2 control-label">是否原件：</label>
+						    <div class= "col-sm-10">
+	                              <select id="if_original" class= "form-control selectpicker">
+	                                   <option value="1">是</option >
+	                                   <option  value="2">否</option >
+	                              </select>
+	                         </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="state" class="col-sm-2 control-label">肺结核史：</label>
+						    <div class= "col-sm-10">
+	                              <select id="state" class= "form-control selectpicker">
+	                                   <option value="1">无</option >
+	                                   <option  value="2">有</option >
+	                              </select>
+	                         </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="associate_id" class="col-sm-2 control-label">糖尿病史：</label>
+						    <div class= "col-sm-10">
+	                              <select id="associate_id" class= "form-control selectpicker">
+	                                   <option value="1">无</option >
+	                                   <option  value="2">有</option >
+	                              </select>
+	                         </div>
 						  </div>
 						  <div class="form-group">
 						    <label for="comment" class="col-sm-2 control-label">备注：</label>
@@ -360,7 +387,9 @@ $(function(){
 		   		     		'<td style="padding:0px">'+data.rows[i].putin_date+'</td>'+
 		   		            '<td style="padding:0px">'+
 		   		                '<div class="btn-group">'+
-		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">查看</a>'+'<a href="" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a><a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">删除</a>'+
+		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">查看</a>'+
+		   		                  '<a onclick="update('+data.rows[i].id+','+data.rows[i].picture_path+','+data.rows[i].picture_information+','+data.rows[i].state+','+data.rows[i].picture_type+','+data.rows[i].picture_name+','+data.rows[i].if_original+','+data.rows[i].putin_date+','+data.rows[i].associate_id+','+data.rows[i].comment+')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a>'+
+		   		                  '<a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">删除</a>'+
 		   		                '</div></td></tr>').appendTo($('#listBody'));
 		   			}
 		   		}
@@ -386,6 +415,20 @@ $(function(){
 		        keyboard: true
 		  })
 	}
+	
+	function update(a,b,c,d,e,f,g,h,i,j){
+		 console.log(a);
+		 console.log(b);
+		 console.log(c);
+		 console.log(d);
+		 console.log(e);
+		 console.log(f);
+		 console.log(g);
+		 console.log(h);
+		 console.log(i);
+		 console.log(j);
+	}
+	
 	function toShow(){
 		 $('.carousel-inner').html("");
 		$('.carousel-indicators').html(""); 
@@ -452,10 +495,13 @@ function addPhoto(){
 	var comment = $('#comment').val();
 	var picture_path = $("#upload").attr("src");
 	var picture_information = $('#picture_information').val();
+	var if_original = $('#if_original').val();
+	var state = $('#state').val();
+	var associate_id = $('#associate_id').val();
 	$.ajax({
 		 type : "POST",	
 		 dataType: 'json',
-		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type},
+		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type,if_original:if_original,state:state,associate_id:associate_id},
 	   	 url : "./addPhoto.do",    			 
 	   	 success: function(data){
 	   		 if(data.status=="success"){
