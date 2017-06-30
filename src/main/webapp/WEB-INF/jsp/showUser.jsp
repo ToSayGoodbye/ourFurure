@@ -172,9 +172,9 @@
                 </div>
             </div>
 	<!-- 模态框（Modal） -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog">
-			<div class="modal-content" style="width:810px;padding:0px";height:371px>
+			<div class="modal-content" style="width:810px;padding:0px;height:371px;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
@@ -183,7 +183,7 @@
 						上传图片
 					</h4>
 				</div>
-				<div class="modal-body" style="padding:15px;height:480px;overflow:scroll">
+				<div class="modal-body" style="padding:15px;height:480px;overflow:scroll;background-color: #424242;">
 						<form id="photoForm" role="form"  class="form-horizontal" action="./addPhoto.do">
 						  <div class="form-group">
 						    <label for="picture_name" class="col-sm-2 control-label">图片名称：</label>
@@ -280,7 +280,7 @@
 	</div>
 	<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog" style="margin:0;padding:0">
-			<div id="toShowBody" class="modal-content" style="margin:30px 50px 30px 30px";>
+			<div id="toShowBody" class="modal-content" style="margin:12px 50px 30px 30px";>
 				<div class="modal-header" style="background-color:">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
@@ -388,7 +388,7 @@ $(function(){
 		   		            '<td style="padding:0px">'+
 		   		                '<div class="btn-group">'+
 		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">查看</a>'+
-		   		                  '<a onclick="update('+data.rows[i].id+','+data.rows[i].picture_path+','+data.rows[i].picture_information+','+data.rows[i].state+','+data.rows[i].picture_type+','+data.rows[i].picture_name+','+data.rows[i].if_original+','+data.rows[i].putin_date+','+data.rows[i].associate_id+','+data.rows[i].comment+')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a>'+
+		   		                  '<a onclick="update(\''+data.rows[i].id+'\',\''+path+'\',\''+data.rows[i].picture_information+'\',\''+data.rows[i].state+'\',\''+data.rows[i].picture_type+'\',\''+data.rows[i].picture_name+'\',\''+data.rows[i].if_original+'\',\''+data.rows[i].putin_date+'\',\''+data.rows[i].associate_id+'\',\''+data.rows[i].comment+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a>'+
 		   		                  '<a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">删除</a>'+
 		   		                '</div></td></tr>').appendTo($('#listBody'));
 		   			}
@@ -416,17 +416,11 @@ $(function(){
 		  })
 	}
 	
-	function update(a,b,c,d,e,f,g,h,i,j){
-		 console.log(a);
-		 console.log(b);
-		 console.log(c);
-		 console.log(d);
-		 console.log(e);
-		 console.log(f);
-		 console.log(g);
-		 console.log(h);
-		 console.log(i);
-		 console.log(j);
+	function update(){
+		 console.log(arguments[0]);
+		 $('#myModal').modal({
+		        keyboard: true
+		 })
 	}
 	
 	function toShow(){
@@ -443,7 +437,7 @@ $(function(){
 		   				var liClass = "";
 		   				if(i==0)liClass = "active";
 		   				$('<div class="item '+liClass+'">'+
-		   		            '<img style="width:650px;height:650px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
+		   		            '<img style="width:500px;height:450px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
 		   		          ).appendTo($('.carousel-inner'));
 		   				$('<li data-target="#myCarousel" data-slide-to="'+i+'" class="'+liClass+'"></li>').appendTo($('.carousel-indicators'));
 		   			}
@@ -456,7 +450,7 @@ $(function(){
                 return ($(document.body).width()-60);
             },
             'height': function () {
-                return ($(document.body).height()-60 );
+                return ($(document.body).height()-270 );
             }
 		});
 	}
