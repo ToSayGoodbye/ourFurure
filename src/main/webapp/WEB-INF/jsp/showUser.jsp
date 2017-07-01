@@ -355,7 +355,7 @@ $(function(){
 
     };
   	//开始
-    //$.ajax(getting);
+    $.ajax(getting);
   	
   	//禁止轮播
     $("#myCarousel").carousel('pause');
