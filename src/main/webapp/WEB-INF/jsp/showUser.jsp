@@ -107,10 +107,6 @@
                 	<img id="showImg" style="width: 195px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
                 </div>
                 
-                <div id="myAlert" class="alert alert-warning" style="display:none;position:absolute">
-				    <a href="#" class="close" data-dismiss="alert">&times;</a>
-				    <strong>警告！</strong>您的网络连接有问题。
-				</div>
                 <div class="col-sm-10">
                     <div class="panel panel-default" style="">
                         <div class="panel-heading" style="color:#000000;background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);">
@@ -174,14 +170,13 @@
 	<!-- 模态框（Modal） -->
 	<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog">
-			<div class="modal-content" style="width:810px;padding:0px;height:371px;">
+			<div class="modal-content" style="width:810px;padding:0px;height:600px;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
 					</button>
-					<h4 class="modal-title" id="myModalLabel">
-						上传图片
-					</h4>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+					<input type="hidden" id="upid">
 				</div>
 				<div class="modal-body" style="padding:15px;height:480px;overflow:scroll;background-color: #424242;">
 						<form id="photoForm" role="form"  class="form-horizontal" action="./addPhoto.do">
@@ -308,6 +303,28 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
+	<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-dialog">
+			<div class="modal-content" style="width:700px;padding:0px";height:222px>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="alertTitle">
+						结果信息
+					</h4>
+				</div>
+				<div class="modal-body" style="padding: 0px;height: 102px;">
+					<div id="myAlert" class="alert alert-warning" style="padding:40px">
+					    
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
 </body>
 <script>
 $(function(){ 
@@ -342,13 +359,23 @@ $(function(){
   	
   	//禁止轮播
     $("#myCarousel").carousel('pause');
-  	
   	//
   	$("#showImg").css({
   		'width': function () {
             return ($('.list-group-item').width()+32);
         }
   	})
+  	
+  	 $('#myModal').on('hide.bs.modal', function () {
+	    	$('#picture_name').val('');
+			$('#picture_type').val(1);
+			$('#comment').val('');
+			$("#upload").attr("src", "./img/select.png");
+			$('#picture_information').val("");
+			$('#if_original').val(1);
+			$('#state').val(1);
+			$('#associate_id').val(1);
+	  })
     
 });   
 	function setOnTimeCount(){
@@ -417,10 +444,20 @@ $(function(){
 	}
 	
 	function update(){
-		 console.log(arguments[0]);
 		 $('#myModal').modal({
 		        keyboard: true
 		 })
+		 $('#myModalLabel').html("修改图片信息");
+		$('#upid').val(arguments[0]);
+		$('#picture_name').val(arguments[5]);
+		$('#picture_type').val(arguments[4]);
+		$('#comment').val(arguments[9]);
+		$("#upload").attr("src",arguments[1]);
+		$('#picture_information').val(arguments[2]);
+		$('#if_original').val(arguments[6]);
+		$('#state').val(arguments[3]);
+		$('#associate_id').val(arguments[8]);	
+		 
 	}
 	
 	function toShow(){
@@ -476,12 +513,8 @@ function toOpen(){
 	  $('#myModal').modal({
 	        keyboard: true
 	  })
-	   $('#myModal').on('hide.bs.modal', function () {
-	    	$('#name').val("");
-	    	$('#comment').val("");
-	    	$('#picture_information').val("");
-	    	$("#upload").attr("src", "./img/select.png");  
-	    })
+	  $('#myModalLabel').html("上传图片");
+	  $('#upid').val("");
 }
 function addPhoto(){
 	var name = $('#picture_name').val();
@@ -492,21 +525,39 @@ function addPhoto(){
 	var if_original = $('#if_original').val();
 	var state = $('#state').val();
 	var associate_id = $('#associate_id').val();
+	var upid = $('#upid').val();
+	var url="";
+	if(upid==""){
+		url = "./addPhoto.do";
+	}else{
+		url = "./updatePhoto.do";
+	}
 	$.ajax({
 		 type : "POST",	
 		 dataType: 'json',
-		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type,if_original:if_original,state:state,associate_id:associate_id},
-	   	 url : "./addPhoto.do",    			 
+		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type,if_original:if_original,state:state,associate_id:associate_id,id:upid},
+	   	 url : url,    			 
 	   	 success: function(data){
 	   		 if(data.status=="success"){
 	   			 $('#myModal').modal('hide');
 	   			 toQuery();
-	   			 alert("上传成功！");
+	   			 alert("操作成功！");
+	   			 setTimeout(function () {
+	   				$('#alertModal').modal({
+		   		        keyboard: true
+		   			  });
+	   				if(Math.random()>0.5){
+	   					$('#myAlert').html("<strong>警报！</strong>你的诊断结果62%概念有误，请洽上级医生会诊！");
+	   				}else{
+	   					$('#myAlert').html("您输入的数据不足以类型判断！");
+	   				}
+	   		    }, 15000);
 	   		 }else{
-	   			 alert("图片信息填加失败！");
+	   			 alert("操作失败！");
 	   		 }
-         }
- 	});
+        }
+	});
+	
 }
 function dele(id){
 	if(confirm("确认删除该图片信息？")){
