@@ -3,7 +3,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>我问问</title>
+    <title>医疗影像系统</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/jquery.plupload.queue/css/jquery.plupload.queue.css">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -39,6 +39,9 @@
     	.carousel-indicators li{
     		border: 1px solid #333;
     	}
+    	.success2{
+    		color:red;
+    	}
     </style>
 </head>
 	<%
@@ -56,7 +59,7 @@
                    <span class="icon-bar"></span>
                    <span class="icon-bar"></span>
                </button>
-               <a style="padding:0px;margin:0px" class="navbar-brand" href="#" id="project"><img style="width: 192px; height: 50px;padding:0px;margin:0px" src="${pageContext.request.contextPath}/img/logo.png"></a>
+               <a style="padding:0px;margin:0px" class="navbar-brand" href="javascript:void();" id="project"><img style="width: 192px; height: 50px;padding:0px;margin:0px" src="${pageContext.request.contextPath}/img/logo.png"></a>
            </div>
 
            <!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,22 +92,22 @@
                 <div class="col-sm-2" style="">
                     <a href="#" class="list-group-item active" style="background-image:linear-gradient(to bottom,#3A3532 0,#C3D3E0 100%);border-color:#DEDEDE"> 影像管理</a>
                     <a href="#" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-home"> 内科影像</a>
+                        <span class="glyphicon glyphicon-home"> 云端数据库</a>
                     <a href="#" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-file"> 外科影像</a>
-                      <a href="#" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-th-large"> 中医影像</a>
+                        <span class="glyphicon glyphicon-file"> 基层医院数据库</a>
                       <a href="#" onclick="toShow()" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-home"> 西医影像</a>
+                        <span class="glyphicon glyphicon-th-large"> 标注数据库</a>
                       <a href="#" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-th-large"> 神经影像</a>
+                        <span class="glyphicon glyphicon-home"> 玻璃结节数据库</a>
                       <a href="#" class="list-group-item" style="height:40px">
+                        <span class="glyphicon glyphicon-th-large"> 本院数据库</a>
+                      <!-- <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-th-large"> 心胸影像</a>
                       <a href="#" class="list-group-item" style="height:40px">
                         <span class="glyphicon glyphicon-th-large"> 泌尿影像</a>
                        <a href="#" class="list-group-item" style="height:40px">
-                        <span class="glyphicon glyphicon-user"> 肿瘤影像</a>
-                	<img id="showImg" style="width: 195px; height: 200px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
+                        <span class="glyphicon glyphicon-user"> 肿瘤影像</a> -->
+                	<img id="showImg" style="width: 195px; height: 200px;margin-top:5px" src="${pageContext.request.contextPath}/img/5775eac1b352b_1024.jpg">
                 </div>
                 
                 <div class="col-sm-10">
@@ -158,11 +161,17 @@
 					 <div id="DataTables_Table_0_info" class="dataTables_info">当前第 <span id="page">1</span> 页，共 <span id="total"></span> 项</div>
 					 </div>
                     <ul class="pager" style="margin-top:-30px;padding-left:-50px">
-						<li>
-							<a href="#" onclick="preView()">上一页</a>
+                   		 <li>
+							<a href="javascript:void(0);" onclick="firstView()">首页</a>
 						</li>
 						<li>
-							<a href="#" onclick="nextView()">下一页</a>
+							<a href="javascript:void(0);" onclick="preView()">上一页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="nextView()">下一页</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);" onclick="endView()">尾页</a>
 						</li>
 					</ul>
                 </div>
@@ -306,7 +315,7 @@
 	<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog">
 			<div class="modal-content" style="width:700px;padding:0px";height:222px>
-				<div class="modal-header">
+				<div class="modal-header" style="background-color:hsla(210, 76%, 4%, 0.42)">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 						&times;
 					</button>
@@ -319,7 +328,7 @@
 					    
 					</div>
 				</div>
-				<div class="modal-footer">
+				<div class="modal-footer"  style="background-color:hsla(210, 76%, 4%, 0.42)">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 				</div>
 			</div><!-- /.modal-content -->
@@ -362,7 +371,7 @@ $(function(){
   	//
   	$("#showImg").css({
   		'width': function () {
-            return ($('.list-group-item').width()+32);
+            return ($('.list-group-item').width()+28);
         }
   	})
   	
@@ -389,6 +398,7 @@ $(function(){
 		})
 	}
 	function query(page,name,picture_type){
+		$("table tbody").html("");
 		 $.ajax({
 			 type : "POST",	
 			 dataType: 'json',
@@ -401,7 +411,7 @@ $(function(){
 		   			for (var i = 0; i < data.rows.length; i++) {
 		   				var trClass="";
 				   		 if(data.rows[i].level==1){
-				   			trClass="success";
+				   			trClass="success2";
 				   		 }
 		   				var path=data.rows[i].picture_path.replace(new RegExp(/\./g),'\\.').replace(new RegExp(/\//g),'\\/');
 		   			 $('<tr class="'+trClass+'">'+
@@ -410,7 +420,7 @@ $(function(){
 		   		           '<td style="padding:0px">'+getType(data.rows[i].picture_type)+'</td>'+
 		   		           '<td style="padding:0px">'+data.rows[i].picture_information+'</td>'+
 		   		           '<td style="padding:0px">'+data.rows[i].comment+'</td>'+
-		   		        	'<td style="padding:0px">正常</td>'+
+		   		        	'<td style="padding:0px">'+getState(data.rows[i].state)+'</td>'+
 		   		     		'<td style="padding:0px">'+data.rows[i].putin_date+'</td>'+
 		   		            '<td style="padding:0px">'+
 		   		                '<div class="btn-group">'+
@@ -433,6 +443,16 @@ $(function(){
 				return "C类";
 			case 4:
 				return "D类";
+		}
+	}
+	function getState(state){
+		switch(state){
+			case "1":
+				return "正常";
+			case "2":
+				return "观察中";
+			default:
+				return "不正常";
 		}
 	}
 	function view(path,name){
@@ -576,6 +596,12 @@ function dele(id){
 		});
 	}
 }
+function firstView(){
+	$("table tbody").html("");
+	var name=$('#name').val();
+	var type=$('#type').val();
+	query(0,name,type);
+}
 function preView(){
 	if($('#page').html()!="1"){
 		$("table tbody").html("");
@@ -585,12 +611,19 @@ function preView(){
 	}
 }
 function nextView(){
-	if(Number($('#total').html())>10 && Number($('#page').html())*10<Number($('#total').html())){
+	if(Number($('#total').html())>20 && Number($('#page').html())*20<Number($('#total').html())){
 		$("table tbody").html("");
 		var name=$('#name').val();
 		var type=$('#type').val();
 		query(Number($('#page').html()),name,type);
 	}
+}
+function endView(){
+	var page = Math.ceil(Number($('#total').html())/20);
+	$("table tbody").html("");
+	var name=$('#name').val();
+	var type=$('#type').val();
+	query(page-1,name,type);
 }
 function toQuery(){
 	$("table tbody").html("");
