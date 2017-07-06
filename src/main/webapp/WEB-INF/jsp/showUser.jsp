@@ -494,7 +494,8 @@ $(function(){
 		   				var liClass = "";
 		   				if(i==0)liClass = "active";
 		   				$('<div class="item '+liClass+'">'+
-		   		            '<img style="width:500px;height:450px;margin:0 auto;" src="'+data.rows[i].picture_path+'"></div>'
+		   		            '<img style="width:500px;height:450px;margin:0 auto;" src="'+data.rows[i].picture_path+'">'+
+		   		            '<div class="carousel-caption">'+data.rows[i].id+'</div></div>'
 		   		          ).appendTo($('.carousel-inner'));
 		   				$('<li data-target="#myCarousel" data-slide-to="'+i+'" class="'+liClass+'"></li>').appendTo($('.carousel-indicators'));
 		   			}
