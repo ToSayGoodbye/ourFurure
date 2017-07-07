@@ -145,9 +145,9 @@
                                     <th>编号</th>
                                     <th>名称</th>
                                     <th>类别</th>
-                                    <th>图片简介</th>
+                                    <th>影像简介</th>
                                     <th>备注</th>
-                                    <th>状态</th>
+                                    <th>标注状态</th>
                                     <th>上传时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -190,13 +190,13 @@
 				<div class="modal-body" style="padding:15px;height:480px;overflow:scroll;background-color: #424242;">
 						<form id="photoForm" role="form"  class="form-horizontal" action="./addPhoto.do">
 						  <div class="form-group">
-						    <label for="picture_name" class="col-sm-2 control-label">图片名称：</label>
+						    <label for="picture_name" class="col-sm-2 control-label">影像特征：</label>
 						     <div class="col-sm-10">
-						    	<input type="text" class="form-control" id="picture_name" placeholder="请输入图片名称">
+						    	<input type="text" class="form-control" id="picture_name" placeholder="请输入影像特征">
 						    </div>
 						  </div>
 						  <div class="form-group">
-						    <label for="picture_type" class="col-sm-2 control-label">图片分类：</label>
+						    <label for="picture_type" class="col-sm-2 control-label">影像分类：</label>
 						    <div class= "col-sm-10">
 	                              <select id="picture_type" class= "form-control selectpicker">
 	                                   <option value="1">A类</option >
@@ -207,7 +207,16 @@
 	                         </div>
 						  </div>
 						  <div class="form-group">
-						  	  <label for="upload" class="col-sm-2 control-label">选择图片：</label>
+						    <label for="picture_state" class="col-sm-2 control-label">上传类型：</label>
+						    <div class= "col-sm-10">
+	                              <select id="picture_state" class= "form-control selectpicker">
+	                                   <option value="1">训练</option >
+	                                   <option  value="2">诊断</option >
+	                              </select>
+	                         </div>
+						  </div>
+						  <div class="form-group">
+						  	  <label for="upload" class="col-sm-2 control-label">选择影像：</label>
 						  	  <div class="col-sm-10">
 								  <img id="upload" alt="" style="width: 200px; height: 200px" src="${pageContext.request.contextPath}/img/select.png">  
 							   </div>
@@ -215,9 +224,9 @@
 								<input id="fileToUpload" onchange="changeEvent()" style="display: none" type="file" name="upfile"><br/>  
 						  </div>
 						  <div class="form-group">
-						    <label for="picture_information" class="col-sm-2 control-label">图片描述：</label>
+						    <label for="picture_information" class="col-sm-2 control-label">初步报告：</label>
 						    <div class="col-sm-10">
-							    <textarea id="picture_information" name="picture_information" class="form-control" rows="3" placeholder="请输入图片描述"></textarea>
+							    <textarea id="picture_information" name="picture_information" class="form-control" rows="3" placeholder="请输入初步报告"></textarea>
 						    </div>
 						  </div>
 						  <div class="form-group">
@@ -244,6 +253,15 @@
 	                              <select id="associate_id" class= "form-control selectpicker">
 	                                   <option value="1">无</option >
 	                                   <option  value="2">有</option >
+	                              </select>
+	                         </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="identity_card" class="col-sm-2 control-label">标记状态：</label>
+						    <div class= "col-sm-10">
+	                              <select id="identity_card" class= "form-control selectpicker">
+	                                   <option value="1">未标注</option >
+	                                   <option  value="2">已标注</option >
 	                              </select>
 	                         </div>
 						  </div>
@@ -384,6 +402,8 @@ $(function(){
 			$('#if_original').val(1);
 			$('#state').val(1);
 			$('#associate_id').val(1);
+			$('#picture_state').val(1);
+			$('#identity_card').val(1);
 	  })
     
 });   
@@ -410,7 +430,7 @@ $(function(){
 		   		if(data.rows.length>0){
 		   			for (var i = 0; i < data.rows.length; i++) {
 		   				var trClass="";
-				   		 if(data.rows[i].level==1){
+				   		 if(data.rows[i].level==1&&data.rows[i].picture_state==2){
 				   			trClass="success2";
 				   		 }
 		   				var path=data.rows[i].picture_path.replace(new RegExp(/\./g),'\\.').replace(new RegExp(/\//g),'\\/');
@@ -420,12 +440,12 @@ $(function(){
 		   		           '<td style="padding:0px">'+getType(data.rows[i].picture_type)+'</td>'+
 		   		           '<td style="padding:0px">'+data.rows[i].picture_information+'</td>'+
 		   		           '<td style="padding:0px">'+data.rows[i].comment+'</td>'+
-		   		        	'<td style="padding:0px">'+getState(data.rows[i].state)+'</td>'+
+		   		        	'<td style="padding:0px 0px 0px 12px">'+getState(data.rows[i].identity_card)+'</td>'+
 		   		     		'<td style="padding:0px">'+data.rows[i].putin_date+'</td>'+
 		   		            '<td style="padding:0px">'+
 		   		                '<div class="btn-group">'+
 		   		                  '<a onclick="view(\'' +path+ '\',\''+data.rows[i].picture_name+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">查看</a>'+
-		   		                  '<a onclick="update(\''+data.rows[i].id+'\',\''+path+'\',\''+data.rows[i].picture_information+'\',\''+data.rows[i].state+'\',\''+data.rows[i].picture_type+'\',\''+data.rows[i].picture_name+'\',\''+data.rows[i].if_original+'\',\''+data.rows[i].putin_date+'\',\''+data.rows[i].associate_id+'\',\''+data.rows[i].comment+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">标记</a>'+
+		   		                  '<a onclick="update(\''+data.rows[i].id+'\',\''+path+'\',\''+data.rows[i].picture_information+'\',\''+data.rows[i].state+'\',\''+data.rows[i].picture_type+'\',\''+data.rows[i].picture_name+'\',\''+data.rows[i].if_original+'\',\''+data.rows[i].putin_date+'\',\''+data.rows[i].associate_id+'\',\''+data.rows[i].comment+'\',\''+data.rows[i].picture_state+'\',\''+data.rows[i].identity_card+'\')" class="btn btn-default" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">修改</a>'+
 		   		                  '<a onclick="dele(\''+data.rows[i].id+'\')" class="btn btn-danger" style="padding-top:0px;padding-bottom:0px;margin-top:2px;margin-bottom:2px">删除</a>'+
 		   		                '</div></td></tr>').appendTo($('#listBody'));
 		   			}
@@ -448,11 +468,11 @@ $(function(){
 	function getState(state){
 		switch(state){
 			case "1":
-				return "正常";
+				return "未标注";
 			case "2":
-				return "观察中";
+				return "已标注";
 			default:
-				return "不正常";
+				return "未标注";
 		}
 	}
 	function view(path,name){
@@ -467,7 +487,8 @@ $(function(){
 		 $('#myModal').modal({
 		        keyboard: true
 		 })
-		 $('#myModalLabel').html("修改图片信息");
+		 $('#myModalLabel').html("修改影像信息");
+		 //下拉列表默认置1
 		$('#upid').val(arguments[0]);
 		$('#picture_name').val(arguments[5]);
 		$('#picture_type').val(arguments[4]);
@@ -477,6 +498,8 @@ $(function(){
 		$('#if_original').val(arguments[6]);
 		$('#state').val(arguments[3]);
 		$('#associate_id').val(arguments[8]);	
+		$('#picture_state').val(arguments[10]=='null'?1:arguments[10]);	
+		$('#identity_card').val(arguments[11]=='null'?1:arguments[11]);	
 		 
 	}
 	
@@ -486,7 +509,7 @@ $(function(){
 		$.ajax({
 			 type : "POST",	
 			 dataType: 'json',
-			 data:{page:0,pagesize:1000,level:'1'},
+			 data:{page:0,pagesize:1000,level:'2'},
 		   	 url : "./queryPhotos.do",    			 
 		   	 success: function(data){
 		   		if(data.rows.length>0){
@@ -534,7 +557,7 @@ function toOpen(){
 	  $('#myModal').modal({
 	        keyboard: true
 	  })
-	  $('#myModalLabel').html("上传图片");
+	  $('#myModalLabel').html("影像上传 ");
 	  $('#upid').val("");
 }
 function addPhoto(){
@@ -545,7 +568,10 @@ function addPhoto(){
 	var picture_information = $('#picture_information').val();
 	var if_original = $('#if_original').val();
 	var state = $('#state').val();
-	var associate_id = $('#associate_id').val();
+	var picture_state = $('#picture_state').val();//上传类型
+	var identity_card = $('#identity_card').val();//是否标记
+	var associate_id = $('#associate_id').val();//糖尿病史
+	
 	var upid = $('#upid').val();
 	var url="";
 	if(upid==""){
@@ -556,7 +582,7 @@ function addPhoto(){
 	$.ajax({
 		 type : "POST",	
 		 dataType: 'json',
-		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type,if_original:if_original,state:state,associate_id:associate_id,id:upid},
+		 data:{name:name,comment:comment,picture_path:picture_path,picture_information:picture_information,picture_type:picture_type,if_original:if_original,state:state,associate_id:associate_id,id:upid,picture_state:picture_state,identity_card:identity_card},
 	   	 url : url,    			 
 	   	 success: function(data){
 	   		 if(data.status=="success"){
@@ -581,7 +607,7 @@ function addPhoto(){
 	
 }
 function dele(id){
-	if(confirm("确认删除该图片信息？")){
+	if(confirm("确认删除该影像信息？")){
 		$.ajax({
 			 type : "POST",	
 			 dataType: 'json',
@@ -591,7 +617,7 @@ function dele(id){
 		   		 if(data.status=="success"){
 		   			 toQuery();
 		   		 }else{
-		   			 alert("图片删除失败！");
+		   			 alert("影像删除失败！");
 		   		 }
 	        }
 		});

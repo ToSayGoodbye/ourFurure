@@ -39,7 +39,9 @@
 		putin_date,
 		state,
 		if_original,
-		associate_id
+		associate_id,
+		picture_state,
+		identity_card
 	)
 	VALUES
 	(
@@ -50,7 +52,9 @@
 		#{comment},now(),
 		#{state},
 		#{if_original},
-		#{associate_id}
+		#{associate_id},
+		#{picture_state},
+		#{identity_card}
 	 )
 </insert> 
 
@@ -70,7 +74,7 @@
 	       and picture_type=#{picture_type}
 	    </if>
 	    <if test="level!=null and level!='' ">  
-	       and level=#{level}
+	       and identity_card=#{level}
 	    </if>
 	  </where> 
      order by level desc,id desc LIMIT #{page},#{pagesize} 
@@ -86,7 +90,7 @@
 	       and  picture_type=#{picture_type}
 	    </if>
 	    <if test="level!=null and level!='' ">  
-	       and level=#{level}
+	       and identity_card=#{level}
 	    </if>
 	</where> 
 </select>
@@ -109,7 +113,9 @@
 		putin_date=now(),
 		state=#{state},
 		if_original=#{if_original},
-		associate_id=#{associate_id}
+		associate_id=#{associate_id},
+		picture_state=#{picture_state},
+		identity_card=#{identity_card}
 	where id = #{id}
 </insert> 
 

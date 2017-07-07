@@ -299,7 +299,7 @@ public class UserController {
      */
     @RequestMapping("/addPhoto.do")
     public void addPhoto(HttpServletRequest request,  
-            HttpServletResponse response,String name,String comment,String picture_path,String picture_information,String picture_type,String state,String if_original,String associate_id) throws IOException{  
+            HttpServletResponse response,String name,String comment,String picture_path,String picture_information,String picture_type,String state,String if_original,String associate_id,String picture_state,String identity_card) throws IOException{  
               Map<String,String> map = new HashMap<String, String>();
               map.put("picture_name", name);
               map.put("comment", comment);
@@ -309,6 +309,8 @@ public class UserController {
               map.put("state", state);
               map.put("if_original", if_original);
               map.put("associate_id", associate_id);
+              map.put("identity_card", identity_card);
+              map.put("picture_state", picture_state);
               try {
 				userDao.addPhoto(map);
 				JSONObject obj = new JSONObject();  
@@ -330,7 +332,7 @@ public class UserController {
      */
     @RequestMapping("/updatePhoto.do")
     public void updatePhoto(HttpServletRequest request,  
-            HttpServletResponse response,String name,String comment,String picture_path,String picture_information,String picture_type,String state,String if_original,String associate_id,String id) throws IOException{  
+            HttpServletResponse response,String name,String comment,String picture_path,String picture_information,String picture_type,String state,String if_original,String associate_id,String id,String identity_card,String picture_state) throws IOException{  
               Map<String,String> map = new HashMap<String, String>();
               map.put("picture_name", name);
               map.put("comment", comment);
@@ -340,6 +342,8 @@ public class UserController {
               map.put("state", state);
               map.put("if_original", if_original);
               map.put("associate_id", associate_id);
+              map.put("identity_card", identity_card);
+              map.put("picture_state", picture_state);
               map.put("id", id);
               try {
 				userDao.updatePhoto(map);
