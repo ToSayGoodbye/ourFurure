@@ -343,7 +343,12 @@
 				</div>
 				<div class="modal-body" style="padding: 0px;height: 102px;">
 					<div id="myAlert" class="alert alert-warning" style="padding:40px">
-					    
+					 <div class="progress progress-striped active" style="padding:0px;height: 20px;margin-bottom: 0px;">
+					   <div class="progress-bar progress-bar-success" role="progressbar" 
+					      aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 
+					      style="width: 1%;">
+					   </div>
+					</div>
 					</div>
 				</div>
 				<div class="modal-footer"  style="background-color:hsla(210, 76%, 4%, 0.42)">
@@ -588,23 +593,75 @@ function addPhoto(){
 	   		 if(data.status=="success"){
 	   			 $('#myModal').modal('hide');
 	   			 toQuery();
-	   			 alert("操作成功！");
-	   			 setTimeout(function () {
-	   				$('#alertModal').modal({
-		   		        keyboard: true
-		   			  });
-	   				if(Math.random()>0.5){
-	   					$('#myAlert').html("<strong>警报！</strong>你的诊断结果62%概念有误，请洽上级医生会诊！");
-	   				}else{
-	   					$('#myAlert').html("您输入的数据不足以类型判断！");
-	   				}
-	   		    }, 15000);
+	   			 alert("保存成功！");
+	   			 if(picture_state==2){toAlert()};
 	   		 }else{
 	   			 alert("操作失败！");
 	   		 }
         }
 	});
 	
+}
+function toAlert(){
+	$('#alertModal').modal({
+	        keyboard: true
+		  });
+	 setTimeout(function(){
+		$("div[role='progressbar']").css("width","10%");
+		setTimeout(function(){
+			$("div[role='progressbar']").css("width","30%");
+			setTimeout(function(){
+				$("div[role='progressbar']").css("width","35%");
+				setTimeout(function(){
+					$("div[role='progressbar']").css("width","80%");
+					setTimeout(function () {
+						$("div[role='progressbar']").css("width","100%");
+						toAlertContinue();
+				    }, 1000);
+				},3000);
+			},1000);
+		},3000);
+	},1000); 
+}
+function toAlertContinue(){
+	var chance = "";
+	switch(Math.ceil(Math.random()*10)){
+		case 1:
+			chance = '40%';
+			break;
+		case 2:
+			chance = '70%';
+			break;
+		case 3:
+			chance = '23%';
+			break;
+		case 4:
+			chance = '47%';
+			break;
+		case 5:
+			chance = '67%';
+			break;
+		case 6:
+			chance = '51%';
+			break;
+		case 7:
+			chance = '68%';
+			break;
+		case 8:
+			chance = '55%';
+			break;
+		case 9:
+			chance = '53%';
+			break;
+		case 10:
+			chance = '54%';
+			break;
+	}
+	 if(Math.random()>0.5){
+		$('#myAlert').html("<strong>警报！</strong>你的诊断结果"+chance+"概率有误，请洽上级医生会诊！");
+	}else{
+		$('#myAlert').html("您输入的数据不足以类型判断！");
+	}
 }
 function dele(id){
 	if(confirm("确认删除该影像信息？")){
