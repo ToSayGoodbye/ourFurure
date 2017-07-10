@@ -77,7 +77,7 @@
 	       and identity_card=#{level}
 	    </if>
 	  </where> 
-     order by level desc,id desc LIMIT #{page},#{pagesize} 
+     order by level desc,picture_state desc,id desc LIMIT #{page},#{pagesize} 
 </select>
  <!-- 图片总数 -->
 <select id="queryPhotosCount" parameterType="java.util.HashMap" resultType="java.lang.Integer"> 
