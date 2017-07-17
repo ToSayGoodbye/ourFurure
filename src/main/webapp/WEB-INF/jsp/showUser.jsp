@@ -118,8 +118,8 @@
                         <div class="panel-body">
                             <form role="form" class="form-inline">
                                 <div class="form-group">
-                                    <label for="name">名称</label>
-                                    <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                                    <label for="name">影像特征</label>
+                                    <input type="text" class="form-control" id="name" placeholder="请输入影像特征">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">状态</label>
@@ -143,9 +143,9 @@
                             <thead>
                                 <tr>
                                     <th>编号</th>
-                                    <th>名称</th>
+                                    <th>影像特征</th>
                                     <th>类别</th>
-                                    <th>影像简介</th>
+                                    <th>影像说明</th>
                                     <th>备注</th>
                                     <th>标注状态</th>
                                     <th>上传时间</th>
@@ -343,12 +343,6 @@
 				</div>
 				<div class="modal-body" style="padding: 0px;height: 102px;">
 					<div id="myAlert" class="alert alert-warning" style="padding:40px">
-					 <div class="progress progress-striped active" style="padding:0px;height: 20px;margin-bottom: 0px;">
-					   <div class="progress-bar progress-bar-success" role="progressbar" 
-					      aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 
-					      style="width: 1%;">
-					   </div>
-					</div>
 					</div>
 				</div>
 				<div class="modal-footer"  style="background-color:hsla(210, 76%, 4%, 0.42)">
@@ -360,6 +354,8 @@
 </body>
 <script>
 $(function(){ 
+	
+	var t = 1;
 	
 	//初始化数据
 	query(0,'','');
@@ -410,8 +406,14 @@ $(function(){
 			$('#picture_state').val(1);
 			$('#identity_card').val(1);
 	  })
+	  $('#alertModal').on('hide.bs.modal', function () {
+		  toStop();
+	  })
     
 });   
+	function toStop(){
+		clearTimeout(t);
+	}
 	function setOnTimeCount(){
 		$.ajax({
 			url:'./countLevel.do',
@@ -606,7 +608,28 @@ function toAlert(){
 	$('#alertModal').modal({
 	        keyboard: true
 		  });
-	 setTimeout(function(){
+	$('#myAlert').html('');
+	$('#myAlert').html('<div class="progress progress-striped active" style="padding:0px;height: 20px;margin-bottom: 0px;">'+
+			   '<div class="progress-bar progress-bar-success" role="progressbar"'+
+			      'aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"'+
+			      'style="width: 1%;">'+
+			   '</div>'+
+			'</div>');
+	var c = 0;
+	timedCount();
+	function timedCount(){
+		c = c+1;
+		$("div[role='progressbar']").css("width",c+"%");
+		if(c==100){
+			clearTimeout(t);
+			toAlertContinue();
+		}else{
+			t = setTimeout(function(){
+				timedCount();
+			},100); 
+		}
+	}
+	/* var ti =  setTimeout(function(){
 		$("div[role='progressbar']").css("width","10%");
 		setTimeout(function(){
 			$("div[role='progressbar']").css("width","30%");
@@ -616,12 +639,13 @@ function toAlert(){
 					$("div[role='progressbar']").css("width","80%");
 					setTimeout(function () {
 						$("div[role='progressbar']").css("width","100%");
-						toAlertContinue();
+						
 				    }, 1000);
 				},3000);
 			},1000);
 		},3000);
-	},1000); 
+	},1000);  */
+	
 }
 function toAlertContinue(){
 	var chance = "";
